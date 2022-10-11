@@ -20,7 +20,7 @@ public class Main {
 
         Logger logger = LogManager.getLogger();
 
-        UserService userService = new UserService("", "", "", "", "");
+        UserService userService = new UserService("", "");
 
         try {
             while (true) {

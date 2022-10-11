@@ -5,36 +5,28 @@ import com.mygroup.usermanagementservice.repository.UserRepository;
 import com.mygroup.usermanagementservice.util.RegexVerifier;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserService {
     private String adminEmail;
     private String dataBaseURL;
-    private String dataBaseUser;
-    private String dataBasePassword;
-    private String dataBAseDriverClass;
 
     private UserRepository userRepository;
 
     public UserService(
             String adminEmail,
-            String dataBaseURL,
-            String dataBaseUser,
-            String dataBasePassword,
-            String dataBAseDriverClass) {
+            String dataBaseURL) {
         this.adminEmail = adminEmail;
         this.dataBaseURL = dataBaseURL;
-        this.dataBaseUser = dataBaseUser;
-        this.dataBasePassword = dataBasePassword;
-        this.dataBAseDriverClass = dataBAseDriverClass;
     }
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User addUser() throws IOException {
+    public User addUser() throws IOException, ClassNotFoundException, SQLException {
         Scanner sc = new Scanner(System.in);
         System.out.println("================");
         System.out.println("|   ADD USER   |");
@@ -77,7 +69,7 @@ public class UserService {
         return user;
     }
 
-    public User deleteUser() {
+    public User deleteUser() throws SQLException, ClassNotFoundException {
         Scanner sc = new Scanner(System.in);
         System.out.println("===================");
         System.out.println("|   DELETE USER   |");
