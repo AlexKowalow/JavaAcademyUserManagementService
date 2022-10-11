@@ -10,19 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserService {
-    private String adminEmail;
-    private String dataBaseURL;
-
+    //  jdbc:mysql://localhost:3306/test?useSSL=false
     private UserRepository userRepository;
 
-    public UserService(
-            String adminEmail,
-            String dataBaseURL) {
-        this.adminEmail = adminEmail;
-        this.dataBaseURL = dataBaseURL;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -46,11 +37,11 @@ public class UserService {
         System.out.print("email: ");
         String email = sc.nextLine();
 
-        if (!RegexVerifier.verifyArgument(pesel, "^$")) {
+        if (!RegexVerifier.verifyArgument(pesel, "^[0-9]{2}((0[1-9])|(1[1-2]))(([0-2][1-9])|(3[0-1]))[0-9]{5}$")) {
             throw new IOException("Invalid PESEL");
         }
 
-        if (!RegexVerifier.verifyArgument(email, "^$")) {
+        if (!RegexVerifier.verifyArgument(email, "^[a-Z._*]@{1}[a-Z]*\\.[a-Z]*$")) {
             throw new IOException("Invalid email");
         }
 
@@ -63,8 +54,6 @@ public class UserService {
 
         User user = new User(Long.parseLong(pesel), firstName, lastName, postCode, city, email);
         user = userRepository.addUser(user);
-
-        sendEmail("USER CREATED: " + user.toString());
 
         return user;
     }
@@ -79,12 +68,8 @@ public class UserService {
         System.out.print("pesel: ");
         String pesel = sc.nextLine();
 
-        User user = userRepository.deleteUser(Long.parseLong(pesel));
-        sendEmail("USER DELETED: " + user.toString());
+        User user = userRepository.getUsers().stream().filter(u -> u.getPesel().equals(Long.parseLong(pesel))).findFirst().orElse(null);
+        userRepository.deleteUser(Long.parseLong(pesel));
         return user;
-    }
-
-    private void sendEmail(String msg) {
-
     }
 }

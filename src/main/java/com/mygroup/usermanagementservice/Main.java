@@ -1,11 +1,15 @@
 package com.mygroup.usermanagementservice;
 
+import com.mygroup.usermanagementservice.model.User;
+import com.mygroup.usermanagementservice.repository.UserRepository;
+import com.mygroup.usermanagementservice.service.MailService;
 import com.mygroup.usermanagementservice.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class Main {
@@ -20,7 +24,18 @@ public class Main {
 
         Logger logger = LogManager.getLogger();
 
-        UserService userService = new UserService("", "");
+        String host = "smtp.mailtrap.io";
+        Properties properties = System.getProperties();
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", "2525");
+
+        MailService mailService = new MailService(properties, "c2ef9b2375192f", "0459524773a6e2");
+
+        UserRepository userRepository = new UserRepository("jdbc:mysql://localhost:3306/test?useSSL=false", "root", "root", "com.mysql.cj.jdbc.Driver");
+        UserService userService = new UserService(userRepository);
 
         try {
             while (true) {
@@ -38,10 +53,12 @@ public class Main {
                 boolean exit = false;
                 switch (opt) {
                     case 1 -> {
-                        userService.addUser();
+                        User user = userService.addUser();
+                        mailService.sendEmail("hajoki4933@migonom.com", "USER ACTIONS", "USER CREATED: " + user);
                     }
                     case 2 -> {
-                        userService.deleteUser();
+                        User user = userService.deleteUser();
+                        mailService.sendEmail("hajoki4933@migonom.com", "USER ACTIONS", "USER DELETED: " + user);
                     }
                     case 3 -> {
                         exit = true;

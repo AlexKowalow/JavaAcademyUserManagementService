@@ -22,8 +22,16 @@ public class User {
 
     @Override
     public String toString() {
-        return pesel.toString();
+        return "User{" +
+                "pesel=" + pesel +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", postCode='" + postCode + '\'' +
+                ", city='" + city + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
+
     public Long getPesel() {
         return pesel;
     }
