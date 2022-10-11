@@ -4,16 +4,18 @@ import com.mygroup.usermanagementservice.model.User;
 import com.mygroup.usermanagementservice.repository.UserRepository;
 import com.mygroup.usermanagementservice.service.MailService;
 import com.mygroup.usermanagementservice.service.UserService;
+import jakarta.mail.MessagingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, MessagingException, SQLException, ClassNotFoundException {
         System.out.println("==============================================");
         System.out.println("|   WELCOME TO THE USER MANAGEMENT SERVICE   |");
         System.out.println("==============================================");
@@ -60,9 +62,7 @@ public class Main {
                         User user = userService.deleteUser();
                         mailService.sendEmail("hajoki4933@migonom.com", "USER ACTIONS", "USER DELETED: " + user);
                     }
-                    case 3 -> {
-                        exit = true;
-                    }
+                    case 3 -> exit = true;
                     default -> throw new IOException("Unknown option");
                 }
 

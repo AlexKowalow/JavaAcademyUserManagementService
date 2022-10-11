@@ -41,7 +41,7 @@ public class UserService {
             throw new IOException("Invalid PESEL");
         }
 
-        if (!RegexVerifier.verifyArgument(email, "^[a-Z._*]@{1}[a-Z]*\\.[a-Z]*$")) {
+        if (!RegexVerifier.verifyArgument(email, "^[A-z._]*@{1}[A-z]*\\.[A-z]*$")) {
             throw new IOException("Invalid email");
         }
 
