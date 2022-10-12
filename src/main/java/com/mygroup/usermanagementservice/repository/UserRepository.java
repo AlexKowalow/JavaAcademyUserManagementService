@@ -42,8 +42,6 @@ public class UserRepository {
                 ", " + "'" + user.getEmail() + "'"
                 + ");";
 
-        System.out.println(query);
-
         try (
                 Connection connection = DriverManager.getConnection(databaseUrl, userName, password);
                 PreparedStatement statement = connection.prepareStatement(query);

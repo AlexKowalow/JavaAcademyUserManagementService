@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+//  will interact wih user instead of console
 @WebServlet(name = "addUser", value = "/add-user")
 public class AddUserServlet extends HttpServlet {
 
@@ -21,6 +22,7 @@ public class AddUserServlet extends HttpServlet {
 //        out.println("<html><body>");
 //        out.println("<h1>" + message + "</h1>");
 //        out.println("</body></html>");
+        response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
     @Override
